@@ -80,11 +80,10 @@ program Histogram
     open(8,file =  'cumulanteE.agr')
     open(9,file =  'energia.agr')
     open(10,file =  'LogMag2.agr')
+!111 format(F8.5,4X,E12.6)
 
-15  format (F18.7, 1x, F18.7, 1x, F18.7, 1x, F18.7)
-111 format(F8.5,4X,E12.6)
-
-    call lerDados(sistema)
+    !call lerDados(sistema)
+    call leargumentos(sistema)
     call gravaDados
     call maxmin
     J1=sistema%J1
@@ -93,7 +92,7 @@ program Histogram
     T0 = sistema%tsimulacao
     n  = sistema%numeroSitios
     ContTF = sistema%numeroIntervalosTeperatura
-    write(*,*) "ok"
+
     do contT=1,ContTF  !repetição na temperatura
         delta = 1.0/T -1.0/T0
 
@@ -117,7 +116,7 @@ program Histogram
                 read(2,*)EJ1, EJ2, mag
                 energia= J1*EJ1+ J2*EJ2
                 ex      = exp(-delta*energia-argmax)
-                m=mag/n
+                m=float(mag)/n
                 m2     = m*m
                 m4     = m2*m2
                 E=energia
@@ -162,14 +161,14 @@ program Histogram
         mediasTermodinamicas%cumulanteE = somasTermodinamicas%cumulanteE/numeroAmos
 
         write(*,*) T,mediasTermodinamicas%susceptibilidade
-        write(3,111) T,mediasTermodinamicas%magnetizacao
-        write(4,111) T,mediasTermodinamicas%magnetizacao2
-        write(5,111) T,mediasTermodinamicas%calorEspecifico
-        write(6,111) T,mediasTermodinamicas%susceptibilidade
-        write(7,111) T,mediasTermodinamicas%cumulante
-        write(8,111) T,mediasTermodinamicas%cumulanteE
-        write(9,111) T,mediasTermodinamicas%energia
-        write(10,111) T,mediasTermodinamicas%logMag2
+        write(3,*) T,mediasTermodinamicas%magnetizacao
+        write(4,*) T,mediasTermodinamicas%magnetizacao2
+        write(5,*) T,mediasTermodinamicas%calorEspecifico
+        write(6,*) T,mediasTermodinamicas%susceptibilidade
+        write(7,*) T,mediasTermodinamicas%cumulante
+        write(8,*) T,mediasTermodinamicas%cumulanteE
+        write(9,*) T,mediasTermodinamicas%energia
+        write(10,*) T,mediasTermodinamicas%logMag2
         T = T + sistema%deltaT
     end do  !temperatura
 !fim do programa
@@ -181,9 +180,6 @@ CONTAINS
         integer :: i_ , mcs_
         integer :: ej1_, ej2, m_
         double precision :: e_
-
-
-15      format (F18.7, 1x, F18.7, 1x, F18.7, 1x, F18.7)
         open(2,file = 'hist.dat')
         read(2,*) ej1_, ej2, m_
         e_=J1*ej1+J2*ej2
@@ -191,7 +187,7 @@ CONTAINS
         eMin = e_
         mcs_=sistema%numeroAmostras*sistema%numeroPassosMC
         do i_=1, mcs_-2
-            read(2,15) ej1_, ej2, m_
+            read(2,*) ej1_, ej2, m_
             e_=J1*ej1+J2*ej2
             if (e_ > eMax) eMax = e_
             if (e_ < eMin) eMin = e_
