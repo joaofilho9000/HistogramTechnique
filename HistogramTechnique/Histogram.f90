@@ -16,6 +16,7 @@ program Histogram
         double precision :: tSimulacao
         double precision :: J1
         double precision :: J2
+        character(len=32) :: filename
     end type Configuracao
 
     type :: Medias
@@ -239,6 +240,8 @@ CONTAINS
         read(arg,*) sistema_%numeroAmostras
         call get_command_argument(11, arg)
         read(arg,*) sistema_%tsimulacao
+        call get_command_argument(12, arg)
+        read(arg,*) sistema_%filename
         sistema_%numeroSitios = 2*sistema_%L*sistema_%L*sistema_%L
         sistema_%numeroIntervalosTeperatura = int((sistema_%tFinal -sistema_%tInicial)/sistema_%deltaT) +1
     end subroutine leargumentos
