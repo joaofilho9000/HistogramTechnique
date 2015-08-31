@@ -81,6 +81,7 @@ program Histogram
     open(8,file =  'cumulanteE.agr')
     open(9,file =  'energia.agr')
     open(10,file =  'LogMag2.agr')
+    open(11,file =  'saida.agr')
 !111 format(F8.5,4X,E12.6)
 
     !call lerDados(sistema)
@@ -161,7 +162,7 @@ program Histogram
         mediasTermodinamicas%cumulante = somasTermodinamicas%cumulante/numeroAmos
         mediasTermodinamicas%cumulanteE = somasTermodinamicas%cumulanteE/numeroAmos
 
-        write(*,*) T,mediasTermodinamicas%susceptibilidade,mediasTermodinamicas%calorEspecifico,&
+        write(11,*) T,mediasTermodinamicas%susceptibilidade,mediasTermodinamicas%calorEspecifico,&
         mediasTermodinamicas%cumulante, mediasTermodinamicas%cumulanteE, &
         mediasTermodinamicas%magnetizacao, mediasTermodinamicas%magnetizacao2, mediasTermodinamicas%energia, &
         mediasTermodinamicas%logMag2
@@ -204,7 +205,7 @@ CONTAINS
 
     subroutine gravaDados
         !Variaveis Locais
-        integer :: i_
+!        integer :: i_
 !
 !        do i_ = 3, 12
 !            write(i_,*) "# L : ", sistema%l
