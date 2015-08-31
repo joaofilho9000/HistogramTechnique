@@ -16,7 +16,7 @@ program Histogram
         double precision :: tSimulacao
         double precision :: J1
         double precision :: J2
-        character(len=32) :: filename
+        character(len=30) :: filename
     end type Configuracao
 
     type :: Medias
@@ -102,7 +102,7 @@ program Histogram
         else
             argmax = -delta*(eMax)
         end if
-        open(2,file = 'hist.dat')
+        open(2,file = sistema%filename)
         somasTermodinamicas=medias(0.0d0, 0.0d00,  0.0d00, 0.0d00, 0.0d00, 0.0d00, 0.0d00, 0.0d00, 0.0d0, 0.0d00, 0.0d00)
         n=sistema%numeroSitios
         do contAmostra = 1, sistema%numeroAmostras
@@ -161,15 +161,19 @@ program Histogram
         mediasTermodinamicas%cumulante = somasTermodinamicas%cumulante/numeroAmos
         mediasTermodinamicas%cumulanteE = somasTermodinamicas%cumulanteE/numeroAmos
 
-        write(*,*) T,mediasTermodinamicas%susceptibilidade
-        write(3,*) T,mediasTermodinamicas%magnetizacao
-        write(4,*) T,mediasTermodinamicas%magnetizacao2
-        write(5,*) T,mediasTermodinamicas%calorEspecifico
-        write(6,*) T,mediasTermodinamicas%susceptibilidade
-        write(7,*) T,mediasTermodinamicas%cumulante
-        write(8,*) T,mediasTermodinamicas%cumulanteE
-        write(9,*) T,mediasTermodinamicas%energia
-        write(10,*) T,mediasTermodinamicas%logMag2
+        write(*,*) T,mediasTermodinamicas%susceptibilidade,mediasTermodinamicas%calorEspecifico,&
+        mediasTermodinamicas%cumulante, mediasTermodinamicas%cumulanteE, &
+        mediasTermodinamicas%magnetizacao, mediasTermodinamicas%magnetizacao2, mediasTermodinamicas%energia, &
+        mediasTermodinamicas%logMag2
+
+!        write(3,*) T,mediasTermodinamicas%magnetizacao
+!        write(4,*) T,mediasTermodinamicas%magnetizacao2
+!        write(5,*) T,mediasTermodinamicas%calorEspecifico
+!        write(6,*) T,mediasTermodinamicas%susceptibilidade
+!        write(7,*) T,mediasTermodinamicas%cumulante
+!        write(8,*) T,mediasTermodinamicas%cumulanteE
+!        write(9,*) T,mediasTermodinamicas%energia
+!        write(10,*) T,mediasTermodinamicas%logMag2
         T = T + sistema%deltaT
     end do  !temperatura
 !fim do programa
@@ -181,7 +185,7 @@ CONTAINS
         integer :: i_ , mcs_
         integer :: ej1_, ej2, m_
         double precision :: e_
-        open(2,file = 'hist.dat')
+        open(2,file = sistema%filename)
         read(2,*) ej1_, ej2, m_
         e_=J1*ej1+J2*ej2
         eMax = e_
@@ -201,18 +205,25 @@ CONTAINS
     subroutine gravaDados
         !Variaveis Locais
         integer :: i_
-
-        do i_ = 3, 12
-            write(i_,*) "# L : ", sistema%l
-            write(i_,*) "# numero de coordenação : ", sistema%numeroCoordenacao
-            write(i_,*) "# Numero de passos para termalização : ", sistema%numeroTermalizacao
-            write(i_,*) "# Número de passos MC : ", sistema%numeroPassosMC
-            write(i_,*) "# Concentração : ", sistema%concentracao
-            write(i_,*) "# Temperatura inicial : ", sistema%tInicial
-            write(i_,*) "# Temperatura final : ", sistema%tFinal
-            write(i_,*) "# delta T : ", sistema%deltaT
-        end do
-
+!
+!        do i_ = 3, 12
+!            write(i_,*) "# L : ", sistema%l
+!            write(i_,*) "# numero de coordenação : ", sistema%numeroCoordenacao
+!            write(i_,*) "# Numero de passos para termalização : ", sistema%numeroTermalizacao
+!            write(i_,*) "# Número de passos MC : ", sistema%numeroPassosMC
+!            write(i_,*) "# Concentração : ", sistema%concentracao
+!            write(i_,*) "# Temperatura inicial : ", sistema%tInicial
+!            write(i_,*) "# Temperatura final : ", sistema%tFinal
+!            write(i_,*) "# delta T : ", sistema%deltaT
+!        end do
+            write(*,*) "# L : ", sistema%l
+            write(*,*) "# numero de coordenação : ", sistema%numeroCoordenacao
+            write(*,*) "# Numero de passos para termalização : ", sistema%numeroTermalizacao
+            write(*,*) "# Número de passos MC : ", sistema%numeroPassosMC
+            write(*,*) "# Concentração : ", sistema%concentracao
+            write(*,*) "# Temperatura inicial : ", sistema%tInicial
+            write(*,*) "# Temperatura final : ", sistema%tFinal
+            write(*,*) "# delta T : ", sistema%deltaT
     end subroutine gravaDados
     !-----------------------------------------------------------------------------
     subroutine leargumentos(sistema_)
