@@ -162,7 +162,7 @@ program Histogram
         mediasTermodinamicas%cumulante = somasTermodinamicas%cumulante/numeroAmos
         mediasTermodinamicas%cumulanteE = somasTermodinamicas%cumulanteE/numeroAmos
 
-        write(11,*) T,mediasTermodinamicas%susceptibilidade,mediasTermodinamicas%calorEspecifico,&
+        write(*,*) T,mediasTermodinamicas%susceptibilidade,mediasTermodinamicas%calorEspecifico,&
         mediasTermodinamicas%cumulante, mediasTermodinamicas%cumulanteE, &
         mediasTermodinamicas%magnetizacao, mediasTermodinamicas%magnetizacao2, mediasTermodinamicas%energia, &
         mediasTermodinamicas%logMag2
@@ -248,12 +248,13 @@ CONTAINS
         read(arg,*) sistema_%numeroTermalizacao
         call get_command_argument(9, arg)
         read(arg,*) sistema_%numeroPassosMC
+       ! call get_command_argument(10, arg)
+       ! read(arg,*) sistema_%numeroAmostras
         call get_command_argument(10, arg)
-        read(arg,*) sistema_%numeroAmostras
-        call get_command_argument(11, arg)
         read(arg,*) sistema_%tsimulacao
-        call get_command_argument(12, arg)
+        call get_command_argument(11, arg)
         read(arg,*) sistema_%filename
+        sistema_%numeroAmostras=50
         sistema_%numeroSitios = 2*sistema_%L*sistema_%L*sistema_%L
         sistema_%numeroIntervalosTeperatura = int((sistema_%tFinal -sistema_%tInicial)/sistema_%deltaT) +1
     end subroutine leargumentos
