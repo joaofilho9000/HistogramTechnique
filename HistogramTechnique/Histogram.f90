@@ -71,19 +71,9 @@ program Histogram
     integer :: numeroAmos
     integer :: i
     integer ::mag,  EJ1, EJ2
-
-    open(1,file = 'dados.dat')
-    open(3,file =  'magnetizacao.agr')
-    open(4,file =  'magnetizacao2.agr')
-    open(5,file =  'calorEspecifico.agr')
-    open(6,file =  'susceptibilidade.agr')
-    open(7,file =  'cumulante.agr')
-    open(8,file =  'cumulanteE.agr')
-    open(9,file =  'energia.agr')
-    open(10,file =  'LogMag2.agr')
-    open(11,file =  'saida.agr')
+ open(11,file =  'saida.agr')
 !111 format(F8.5,4X,E12.6)
-
+    write(*,*) "ok"
     !call lerDados(sistema)
     call leargumentos(sistema)
     call gravaDados
